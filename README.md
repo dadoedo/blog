@@ -1,2 +1,3 @@
-# blog
-My Symfony Blog page
+# Blog
+
+Starting project for presentation and tinkering purposes.
