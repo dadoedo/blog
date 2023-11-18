@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: "users")]
 #[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: "user_type", type: "string")]
-#[ORM\DiscriminatorMap(["user" => "User", "client" => "Client", "candidate" => "Candidate"])]
+#[ORM\DiscriminatorColumn(name: "user_type", type: "string", length: 50)]
+#[ORM\DiscriminatorMap(["user" => "User", "company" => "Company", "candidate" => "Candidate"])]
 class User
 {
     #[ORM\Id]
@@ -23,7 +23,6 @@ class User
     #[ORM\Column(type: 'string', length: 255)]
     private string $password;
 
-    #[ORM\Column(type: 'string', length: 50)]
     private string $user_type;
 
     #[ORM\Column(type: 'datetime')]

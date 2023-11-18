@@ -10,7 +10,8 @@ class Education
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    private ?int $id = null;
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $institution = null;
@@ -39,7 +40,7 @@ class Education
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $updatedAt = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
