@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CandidateRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,6 +18,13 @@ class Candidate extends User
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
     private ?string $gender = null;
+    #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: Skill::class)]
+    private Collection $skills;
+
+    public function __construct()
+    {
+        $this->skills = new ArrayCollection();
+    }
 
     public function getInterests(): array
     {
@@ -48,6 +56,32 @@ class Candidate extends User
     public function setGender(?string $gender): self
     {
         $this->gender = $gender;
+        return $this;
+    }
+
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill, string $seniority, int $monthsActive): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $candidateSkill = new CandidateSkill($this, $skill, $seniority, $monthsActive);
+            $this->skills[] = $candidateSkill;
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        foreach ($this->skills as $candidateSkill) {
+            if ($candidateSkill->getSkill() === $skill) {
+                $this->skills->removeElement($candidateSkill);
+            }
+        }
+
         return $this;
     }
 }
