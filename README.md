@@ -7,3 +7,4 @@ Main Idea - A Portal for Companies to search for candidates. API + WebApp. Proba
 
 - SIT Single Table inheritance User -> (Company, Candidate)
 - PHP8 properties
+- M to N Bidirectional Relationship between Candidates and Skills
