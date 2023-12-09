@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Traits;
 
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
-trait CommonFieldsTrait
+trait TimestampableFields
 {
-    protected function configureCommonFields(): array
+    protected function configureTimestampableFields(): array
     {
         return [
             DateTimeField::new('createdAt')->onlyOnIndex()->setFormat('yyyy-MM-dd HH:mm:ss'),
