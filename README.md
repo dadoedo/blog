@@ -30,4 +30,3 @@ will let you hash a password, take the value and insert it to `user` table
 ```
 insert into "user" (id, email, roles, password, user_type, updated_at, created_at) values (1, 'admin@admin.com', '["ROLE_ADMIN"]', '{yourHashedPassword}', 'user', now(), now() )
 ```
----
