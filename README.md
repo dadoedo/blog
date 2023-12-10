@@ -22,4 +22,11 @@ composer install
 php bin/console assets:install public
 php bin/console cache:clear
 ````
-
+- Create user for login:
+```
+php bin/console security:hash-password
+```
+will let you hash a password, take the value and insert it to `user` table
+```
+insert into "user" (id, email, roles, password, user_type, updated_at, created_at) values (1, 'admin@admin.com', '["ROLE_ADMIN"]', '{yourHashedPassword}', 'user', now(), now() )
+```
