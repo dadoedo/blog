@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231209164220 extends AbstractMigration
+final class Version20231210190535 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,6 @@ final class Version20231209164220 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE users_id_seq CASCADE');
         $this->addSql('CREATE SEQUENCE candidate_skill_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE education_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE job_post_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -64,7 +63,6 @@ final class Version20231209164220 extends AbstractMigration
         $this->addSql('ALTER TABLE profession ADD CONSTRAINT FK_BA930D69C6C55574 FOREIGN KEY (main_category_id) REFERENCES profession_category (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE profession_profession_category ADD CONSTRAINT FK_61CB5ED6C6C55574 FOREIGN KEY (main_category_id) REFERENCES profession (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE profession_profession_category ADD CONSTRAINT FK_61CB5ED6C5424D6B FOREIGN KEY (profession_category_id) REFERENCES profession_category (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('DROP TABLE users');
     }
 
     public function down(Schema $schema): void
@@ -78,9 +76,6 @@ final class Version20231209164220 extends AbstractMigration
         $this->addSql('DROP SEQUENCE profession_category_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE skill_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
-        $this->addSql('CREATE SEQUENCE users_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE users (id INT NOT NULL, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, user_type VARCHAR(50) NOT NULL, ico VARCHAR(20) DEFAULT NULL, dic VARCHAR(20) DEFAULT NULL, size VARCHAR(50) DEFAULT NULL, field VARCHAR(100) DEFAULT NULL, interests JSON DEFAULT NULL, date_of_birth DATE DEFAULT NULL, gender VARCHAR(10) DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE UNIQUE INDEX uniq_1483a5e9f85e0677 ON users (username)');
         $this->addSql('ALTER TABLE candidate_skill DROP CONSTRAINT FK_66DD0F8B91BD8781');
         $this->addSql('ALTER TABLE candidate_skill DROP CONSTRAINT FK_66DD0F8B5585C142');
         $this->addSql('ALTER TABLE job_post DROP CONSTRAINT FK_DD461ACC91BD8781');
