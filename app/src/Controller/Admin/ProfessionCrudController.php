@@ -4,7 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Controller\Admin\Traits\TimestampableFields;
 use App\Entity\Profession;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -20,10 +22,14 @@ class ProfessionCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $specificFields = [
-            TextField::new('name'),
-            TextEditorField::new('description'),
+            TextField::new('Name'),
+            TextEditorField::new('Description'),
+            AssociationField::new('categories')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
+            AssociationField::new('mainCategory'),
         ];
 
-        return array_merge($this->configureTimestampableFields(), $specificFields);
+        return array_merge($specificFields, $this->configureTimestampableFields());
     }
 }

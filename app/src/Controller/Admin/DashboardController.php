@@ -8,6 +8,7 @@ use App\Entity\Education;
 use App\Entity\JobPost;
 use App\Entity\Profession;
 use App\Entity\ProfessionCategory;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -22,7 +23,11 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         // return parent::index();
-        return $this->render('admin/index.html.twig');
+        return $this->render('admin/index.html.twig', [
+            'companyCount' => rand(0,10),
+            'candidateCount' => rand(0,10),
+            'jobPostingCount' => rand(0,10),
+        ]);
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
         // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
@@ -43,7 +48,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Work For All');
+            ->setTitle('My Big Corporation s.r.o.');
     }
 
     public function configureMenuItems(): iterable

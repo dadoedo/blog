@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\Timestampable;
 use App\Repository\ProfessionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,6 +38,11 @@ class Profession
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $updatedAt = null;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -81,7 +87,11 @@ class Profession
 
     public function removeCategory(ProfessionCategory $category): self
     {
-        $this->categories->removeElement($category);
+        if ($this->categories->removeElement($category)) {
+            if ($this->mainCategory === $category) {
+                $this->mainCategory = null;
+            }
+        }
 
         return $this;
     }

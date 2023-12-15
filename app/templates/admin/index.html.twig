@@ -1,1 +1,23 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}The Title of the Page{% endblock %}
+{% block page_actions %}
+    <a class="btn btn-primary" href="...">Some Action</a>
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">Dashboard</div>
+                    <div class="card-body">
+                        <p>Number of Companies: {{ companyCount }}</p>
+                        <p>Number of Candidates: {{ candidateCount }}</p>
+                        <p>Number of Job Postings: {{ jobPostingCount }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
