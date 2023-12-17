@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Gender;
 use App\Repository\CandidateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,8 +17,8 @@ class Candidate extends User
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[ORM\Column(type: 'string', length: 10, nullable: true)]
-    private ?string $gender = null;
+    #[ORM\Column(type: 'string', length: 10, nullable: true, enumType: Gender::class)]
+    private Gender|null $gender = null;
     #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: Skill::class)]
     private Collection $skills;
 
@@ -48,26 +49,15 @@ class Candidate extends User
         return $this;
     }
 
-    public function getGender(): ?string
-    {
-        return $this->gender;
-    }
-
-    public function setGender(?string $gender): self
-    {
-        $this->gender = $gender;
-        return $this;
-    }
-
     public function getSkills(): Collection
     {
         return $this->skills;
     }
 
-    public function addSkill(Skill $skill, string $seniority, int $monthsActive): self
+    public function addSkill(Skill $skill, string $seniority, int $monthsActive, ?string $comment): self
     {
         if (!$this->skills->contains($skill)) {
-            $candidateSkill = new CandidateSkill($this, $skill, $seniority, $monthsActive);
+            $candidateSkill = new CandidateSkill($this, $skill, $seniority, $monthsActive, $comment);
             $this->skills[] = $candidateSkill;
         }
 
@@ -83,6 +73,16 @@ class Candidate extends User
         }
 
         return $this;
+    }
+
+    public function getGender(): ?Gender
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?Gender $gender): void
+    {
+        $this->gender = $gender;
     }
 }
 

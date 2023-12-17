@@ -10,17 +10,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CompanyCrudController extends AbstractCrudController
 {
     use TimestampableFields;
     use PasswordFields;
-
-    public function __construct(
-        protected UserPasswordHasherInterface $passwordHasher,
-    ) {
-    }
 
     public static function getEntityFqcn(): string
     {
