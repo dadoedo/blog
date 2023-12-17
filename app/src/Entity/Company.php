@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\CompanySize;
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,8 +15,8 @@ class Company extends User
     #[ORM\Column(type: 'string', length: 20, nullable: true)]
     private ?string $dic = null;
 
-    #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    private ?string $size = null;
+    #[ORM\Column(type: 'string', nullable: true, enumType: CompanySize::class)]
+    private CompanySize|null $size = null;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $field = null;
@@ -43,17 +44,6 @@ class Company extends User
         return $this;
     }
 
-    public function getSize(): ?string
-    {
-        return $this->size;
-    }
-
-    public function setSize(?string $size): self
-    {
-        $this->size = $size;
-        return $this;
-    }
-
     public function getField(): ?string
     {
         return $this->field;
@@ -63,5 +53,15 @@ class Company extends User
     {
         $this->field = $field;
         return $this;
+    }
+
+    public function getSize(): ?CompanySize
+    {
+        return $this->size;
+    }
+
+    public function setSize(?CompanySize $size): void
+    {
+        $this->size = $size;
     }
 }
