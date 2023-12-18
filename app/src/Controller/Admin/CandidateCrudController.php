@@ -5,10 +5,11 @@ namespace App\Controller\Admin;
 use App\Controller\Admin\Traits\PasswordFields;
 use App\Controller\Admin\Traits\TimestampableFields;
 use App\Entity\Candidate;
-use App\Enum\CompanySize;
 use App\Enum\Gender;
+use App\Form\CandidateSkillType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -38,6 +39,10 @@ class CandidateCrudController extends AbstractCrudController
                 ->setChoices(Gender::cases()),
             DateField::new('dateOfBirth', 'Date Of Birth')
                 ->renderAsNativeWidget(),
+            CollectionField::new('candidateSkills', 'Skills')
+                ->setEntryIsComplex()
+                ->setFormTypeOptions(['by_reference' => false])
+                ->setEntryType(CandidateSkillType::class)
         ]);
 
         return array_merge($fields, $this->configureTimestampableFields());

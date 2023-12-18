@@ -19,12 +19,13 @@ class Candidate extends User
 
     #[ORM\Column(type: 'string', length: 10, nullable: true, enumType: Gender::class)]
     private Gender|null $gender = null;
-    #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: Skill::class)]
-    private Collection $skills;
+
+    #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: CandidateSkill::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $candidateSkills;
 
     public function __construct()
     {
-        $this->skills = new ArrayCollection();
+        $this->candidateSkills = new ArrayCollection();
     }
 
     public function getInterests(): array
@@ -49,29 +50,28 @@ class Candidate extends User
         return $this;
     }
 
-    public function getSkills(): Collection
+    public function getCandidateSkills(): Collection
     {
-        return $this->skills;
+        return $this->candidateSkills;
     }
 
-    public function addSkill(Skill $skill, string $seniority, int $monthsActive, ?string $comment): self
+    public function addCandidateSkill(CandidateSkill $candidateSkill): self
     {
-        if (!$this->skills->contains($skill)) {
-            $candidateSkill = new CandidateSkill($this, $skill, $seniority, $monthsActive, $comment);
-            $this->skills[] = $candidateSkill;
+        if (!$this->candidateSkills->contains($candidateSkill)) {
+            $this->candidateSkills[] = $candidateSkill;
+            $candidateSkill->setCandidate($this);
         }
-
         return $this;
     }
 
-    public function removeSkill(Skill $skill): self
+    public function removeCandidateSkill(CandidateSkill $candidateSkill): self
     {
-        foreach ($this->skills as $candidateSkill) {
-            if ($candidateSkill->getSkill() === $skill) {
-                $this->skills->removeElement($candidateSkill);
+        if ($this->candidateSkills->removeElement($candidateSkill)) {
+            // set the owning side to null (unless already changed)
+            if ($candidateSkill->getCandidate() === $this) {
+                $candidateSkill->setCandidate(null);
             }
         }
-
         return $this;
     }
 

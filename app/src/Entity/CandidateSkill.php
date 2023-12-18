@@ -12,30 +12,24 @@ class CandidateSkill
     #[ORM\Column]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: Candidate::class, inversedBy: 'skills')]
-    #[ORM\JoinColumn(name: 'candidate_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Candidate::class, inversedBy: 'candidateSkills')]
     private Candidate $candidate;
 
-    #[ORM\ManyToOne(targetEntity: Skill::class, inversedBy: 'candidates')]
-    #[ORM\JoinColumn(name: 'skill_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Skill::class, inversedBy: 'candidateSkills')]
     private Skill $skill;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $seniority = null;
+    private ?string $seniority;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $monthsActive = null;
+    private ?int $monthsActive;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $comment = null;
+    private ?string $comment;
 
-    public function __construct(Candidate $candidate, Skill $skill, ?string $seniority, ?int $monthsActive, ?string $comment)
+    public function __toString(): string
     {
-        $this->candidate = $candidate;
-        $this->skill = $skill;
-        $this->seniority = $seniority;
-        $this->monthsActive = $monthsActive;
-        $this->comment = $comment;
+        return $this->candidate->getName() .  ' - ' . $this->skill->getName();   // TODO: Implement __toString() method.
     }
 
     public function getId(): int
