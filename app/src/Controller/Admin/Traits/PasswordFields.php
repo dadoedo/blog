@@ -10,9 +10,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 trait PasswordFields
 {
+    public function __construct(
+        protected UserPasswordHasherInterface $passwordHasher,
+    ) {
+    }
     protected function configurePasswordFields(string $pageName): array
     {
         return [

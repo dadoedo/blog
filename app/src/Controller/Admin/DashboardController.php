@@ -8,6 +8,7 @@ use App\Entity\Education;
 use App\Entity\JobPost;
 use App\Entity\Profession;
 use App\Entity\ProfessionCategory;
+use App\Entity\Skill;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -65,6 +66,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Other');
         yield MenuItem::linkToCrud('Educations', 'fa fa-tags', Education::class);
+        yield MenuItem::linkToCrud('User Skills', 'fa fa-tags', Skill::class);
         yield MenuItem::linkToCrud('Professions', 'fa fa-tags', Profession::class);
         yield MenuItem::linkToCrud('Categories of Professions', 'fa fa-tags', ProfessionCategory::class);
 

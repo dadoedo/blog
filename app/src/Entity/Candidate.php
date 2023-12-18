@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Gender;
 use App\Repository\CandidateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,14 +17,15 @@ class Candidate extends User
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[ORM\Column(type: 'string', length: 10, nullable: true)]
-    private ?string $gender = null;
-    #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: Skill::class)]
-    private Collection $skills;
+    #[ORM\Column(type: 'string', length: 10, nullable: true, enumType: Gender::class)]
+    private Gender|null $gender = null;
+
+    #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: CandidateSkill::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $candidateSkills;
 
     public function __construct()
     {
-        $this->skills = new ArrayCollection();
+        $this->candidateSkills = new ArrayCollection();
     }
 
     public function getInterests(): array
@@ -48,41 +50,39 @@ class Candidate extends User
         return $this;
     }
 
-    public function getGender(): ?string
+    public function getCandidateSkills(): Collection
+    {
+        return $this->candidateSkills;
+    }
+
+    public function addCandidateSkill(CandidateSkill $candidateSkill): self
+    {
+        if (!$this->candidateSkills->contains($candidateSkill)) {
+            $this->candidateSkills[] = $candidateSkill;
+            $candidateSkill->setCandidate($this);
+        }
+        return $this;
+    }
+
+    public function removeCandidateSkill(CandidateSkill $candidateSkill): self
+    {
+        if ($this->candidateSkills->removeElement($candidateSkill)) {
+            // set the owning side to null (unless already changed)
+            if ($candidateSkill->getCandidate() === $this) {
+                $candidateSkill->setCandidate(null);
+            }
+        }
+        return $this;
+    }
+
+    public function getGender(): ?Gender
     {
         return $this->gender;
     }
 
-    public function setGender(?string $gender): self
+    public function setGender(?Gender $gender): void
     {
         $this->gender = $gender;
-        return $this;
-    }
-
-    public function getSkills(): Collection
-    {
-        return $this->skills;
-    }
-
-    public function addSkill(Skill $skill, string $seniority, int $monthsActive): self
-    {
-        if (!$this->skills->contains($skill)) {
-            $candidateSkill = new CandidateSkill($this, $skill, $seniority, $monthsActive);
-            $this->skills[] = $candidateSkill;
-        }
-
-        return $this;
-    }
-
-    public function removeSkill(Skill $skill): self
-    {
-        foreach ($this->skills as $candidateSkill) {
-            if ($candidateSkill->getSkill() === $skill) {
-                $this->skills->removeElement($candidateSkill);
-            }
-        }
-
-        return $this;
     }
 }
 

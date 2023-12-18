@@ -27,8 +27,8 @@ class Skill
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'skill', targetEntity: CandidateSkill::class)]
-    private Collection $candidates;
+    #[ORM\OneToMany(mappedBy: 'skill', targetEntity: CandidateSkill::class, orphanRemoval: true)]
+    private Collection $candidateSkills;
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $createdAt = null;
@@ -38,7 +38,12 @@ class Skill
 
     public function __construct()
     {
-        $this->candidates = new ArrayCollection();
+        $this->candidateSkills = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName() ?: 'Unnamed skill';
     }
 
 
@@ -79,8 +84,8 @@ class Skill
         return $this->updatedAt;
     }
 
-    public function getCandidates(): Collection
+    public function getCandidateSkills(): Collection
     {
-        return $this->candidates;
+        return $this->candidateSkills;
     }
 }
