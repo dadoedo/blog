@@ -22,6 +22,11 @@ class Company extends User
     private ?string $field = null;
 
 
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
     public function getIco(): ?string
     {
         return $this->ico;

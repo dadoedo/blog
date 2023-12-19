@@ -21,13 +21,13 @@ class CandidateSkill
     private Skill $skill;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $seniority = null;
+    private ?string $seniority;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $monthsActive = null;
+    private ?int $monthsActive;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $comment = null;
+    private ?string $comment;
 
     public function __construct(Candidate $candidate, Skill $skill, ?string $seniority, ?int $monthsActive, ?string $comment)
     {

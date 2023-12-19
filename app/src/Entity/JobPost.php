@@ -35,15 +35,15 @@ class JobPost
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $priority = null;
 
-    #[ORM\ManyToOne(targetEntity: Candidate::class)]
-    #[ORM\JoinColumn(name: 'candidate_id', referencedColumnName: 'id', nullable: true)]
-    private ?Candidate $candidate = null;
+    #[ORM\ManyToOne(targetEntity: Company::class)]
+    #[ORM\JoinColumn(name: 'company_id', referencedColumnName: 'id', nullable: true)]
+    private ?Company $company = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $expectedSalaryMin = null;
+    private ?int $salaryRangeMin = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $expectedSalaryMax = null;
+    private ?int $salaryRangeMax = null;
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $createdAt = null;
@@ -122,36 +122,25 @@ class JobPost
         return $this;
     }
 
-    public function getCandidate(): ?Candidate
+    public function getSalaryRangeMin(): ?int
     {
-        return $this->candidate;
+        return $this->salaryRangeMin;
     }
 
-    public function setCandidate(?Candidate $candidate): self
+    public function setSalaryRangeMin(?int $salaryRangeMin): self
     {
-        $this->candidate = $candidate;
+        $this->salaryRangeMin = $salaryRangeMin;
         return $this;
     }
 
-    public function getExpectedSalaryMin(): ?int
+    public function getSalaryRangeMax(): ?int
     {
-        return $this->expectedSalaryMin;
+        return $this->salaryRangeMax;
     }
 
-    public function setExpectedSalaryMin(?int $expectedSalaryMin): self
+    public function setSalaryRangeMax(?int $salaryRangeMax): self
     {
-        $this->expectedSalaryMin = $expectedSalaryMin;
-        return $this;
-    }
-
-    public function getExpectedSalaryMax(): ?int
-    {
-        return $this->expectedSalaryMax;
-    }
-
-    public function setExpectedSalaryMax(?int $expectedSalaryMax): self
-    {
-        $this->expectedSalaryMax = $expectedSalaryMax;
+        $this->salaryRangeMax = $salaryRangeMax;
         return $this;
     }
 
@@ -163,5 +152,15 @@ class JobPost
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): void
+    {
+        $this->company = $company;
     }
 }
